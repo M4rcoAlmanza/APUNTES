@@ -1,0 +1,97 @@
+RUTAS CLOUSURE
+Archivo web
+Copiar y agregar la vista en la ruta
+Crear la vista
+
+PASO DE VARIABLES
+Normalmente son consultas en las bases de datos
+Variable última:
+$ultima = 'creación del sistema';//Dato obtenido
+return view('view')->with(['reciente' => $ultima,...]);
+usarla con blade: {{$reciente}} //equivale al echo y a empezar php
+OPCION 2: return view('view',['reciente' => $ultima,...]));
+Si se llaman igual: return view('view',compact('ultima',...));
+
+RUTAS CON PARÁMETROS
+
+ROUTE::get('/xd/{version_id}'...function(version_id)
+Espera el parametro y ya se puede utilizar
+
+CONTROLADORES
+usando artisan
+php artisan make:controller name //crea el controlados
+se crea en app->http->Controllers
+
+public function nombre_metodo(){
+	//pasamos el código desde la funcion, solo la ruta
+}
+use App/Http/Controllers/Nombrecontrolador
+Route::get...'/', [NombreControlador::class, 'nombremetodo']
+
+VARIABLES; ESTRUCTURAS DE CONTROL Y CICLOS(blade)
+{{}}->echo de php
+@foreach($versiones as $ver)
+	<li>{{ver}}</li>//por ejemplo
+@endforeach //blade simplifica el foreach
+number format-< cambia a numero
+@forelse
+@while
+@if
+
+-------------------------------------------------------
+ENVÍO Y RECEPCIÓN DE FORMULARIOS
+
+action a una URL diferente
+En los controles:
+public function recibeFormCont(request $request){
+	//Recibe información, verifica y válida
+	//Inserta a DB
+	//Redirige
+	//del name
+	//dd($request);//método de larabel para morir y ver info
+	//dd($request->all());muestra lo del formulario
+	//dd($request->input('var');accede a solo una
+	dd($request->var);
+
+	$request->validate([
+		'nombre' => 'required|max:255|min:3',
+		...
+		'correo'=> ['required', 'email'],
+	]);//validar que han ingresado
+}
+
+Hacemos su ruta con:
+//añadimos use Illuminate\Http\Request
+ROUTE::post('/recibe-form-contacto', [PAginaController::class, 'recibeFormContacto'])
+
+contact blae
+<form ...
+	<input ... value ="{{}old(nombre_del_input)}">
+	@crsf
+	...
+	@error('variable')
+		<p>{{$message}}</p>
+	@enderror
+</form>
+
+MIGRACIONES
+Database/Migrations
+up->Actualizar la base de datos
+down->ctrl z para el up
+
+ejecutar migraciones
+sail/php artisan | grep migrate
+php mysql ->entramos
+
+sail artisan migrate:install
+php artisan migrate ->ejecuta los up
+php artisan migrate:rollback ->ejecuta los down
+
+CREACIÓN DE MIGRACIONES
+artisan make:migration --create=contactos crea_tabla_contactos.php
+artisan make:migration create-contactos_table
+//es lo mismo, migración que crea tabla (se puede hacer lo mismo con las columnas)
+
+
+$table->string('nombre');
+

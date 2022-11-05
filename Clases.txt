@@ -1,0 +1,221 @@
+-----------------CLASE 16/08/22-----------------
+	->Presentación a HTML y CSS<-
+Tags:
+<html></html>: Principal         <p></p>: Párrafo
+<a href>: enlace                 <b></b>: negritas
+<h1...h6></h1>: Titulos          <i></i>: italic
+<del></del>: tachadas            <ul></ul>: listas sin ordenar
+<li></li>: elementos de lista    <ol></ol>: listas ordenadas
+<div></div>: divisiones          <span></span>: elemento inline
+
+<table>					<form action="ruta" method="metodo">
+<tr><th>Table headings</th></tr>		<input type="" name="" value="" id="">
+<tr><td>Table data</td></tr>			</input>
+</table>					<select>
+							<option value=""></option>
+						</select>
+					</form>
+
+type:
+-text: cuadro de texto   -radio: boton tipo radio    -checkbox          -password
+-submit                  -button                     -hidden            -file
+
+
+-----------------CLASE 23/08/22-----------------
+Instalamos Laragon
+Instalar GIT de manera independiente
+
+nombre dle proyecto.test
+file:///C:/Windows/System32/drivers/etc/hosts //URL de hosts
+if(!qmpty)($_POST['nombre'])
+
+-----------------CLASE 25/08/22-----------------
+Vimos métodos de conexión:  PDO - MySQLi
+mysql -u root
+include(archivo de conexión);
+separar la inserción del formulario
+header('Location:index.php');//redirigir la página
+
+Modelo VC (Vista controlador)
+Modelo: BAse de datos
+Vista: Interfaz de usuario
+Controlados: Lógica entre vistas y modelos
+
+ORM (Object-Relational Mapping): Crea una capa entre la base de datos y el modelo.
+No usa consultas SQL, solo métodos POO.
+
+Vista (HTML, CSS, JS, Blase)
+
+Controlador (Recibe las consultas, implementa validaciones, realiza las consultas y
+regresa las vistas)
+
+Rutas (relacional una URI con un método anónimo o uno dentro del controlador).
+
+-----------------CLASE 30/08/22-----------------
+php artisan serve->crear servidor para evitar problemas (en la carpeta del proyecto)
+.env->archivo donde se configuran las variables de entorno
+La llave de encriptación está en el .env
+
+composer.json->listado de paquetes requeridos
+composer.lock->listado de las versiones actualizadas
+package.hson-> php
+public->carpeta de las cosas públicas
+ 
+GIT
+- git --version
+git config--global user.name  "Nombre"
+git config--global user.email  "Nombre"
+
+git config --global init-defaultBranch main
+
+cambiar de directorio al proyecto
+git init
+
+git commit -m "mensaje" 
+guardar
+git commit -m ""
+
+git remote add + alias + URL(alias normalmente es origin)
+git status->revisar cambios
+GITKraken
+
+vendor->se instalan los paquetes del composer(no sale en GIT)
+
+-----------------22/09/2022-------------------------
+CRUD
+php artisan make:controller -r SesionesController
+php artisan make:migration create_sesiones_migrations
+php artisan make:model Sesion
+
+php artisan route:list //muestra rutas
+
+php artisan make:model -mcr Sesion //migracion, controlador y tipo
+
+-------------------------27/09/2022-------------------------
+Trabajar por ramas:
+-> git checkout nombre //cambia de rama
+-> git checkoout -b nombre //crear rama
+wordbench->diseño de tablas
+
+php artisan route:list --compact | greep sesion
+
+INDEX
+->Regresas la vista
+$areas = Area::all();
+return view('directorio', compact('areas'));
+//creamos la vista
+html etc->
+@foreach($areas as $area)
+	<li>{{$area->atributo}}<li>
+@endfreach
+
+
+->SHOW
+Creamos nueva vista similar a la de INDEX
+
+-----------------CLASE 11/10/22-----------------
+ASSETS
+
+Compilación de assets: vite (versiones nuevas (la mía))
+mix (versiones antiguas de laravel)
+
+INSTALACIÓN
+node -v (probablemente debamos cambiar a al 18)
+npm -v
+(ya vienen en Laragon, pero necesitamos una versión nueva)
+npm install (directorio del proyecto)
+vite.config.js-Archivo de configuración
+resources/css -> añadimos los recursos en el archivo de configuración
+<link rel="stylesheet" href="{{asset('css/styles.css)}}"
+
+NPM RUN DEV (server)
+npm run build (producción)
+
+en nuestras landings
+@vite([´resources...igual que en la fonfiguración en el js]
+
+
+-> AUTENTICACIÓN
+Jetstream
+
+composer require laravel/jetstreams -> en el proyecto
+php artisan jetstreams:install livewire
+
+----------------18/10/2022-----------------
+laravel.com/docs/9x/blade#components
+Hacer componentes: php artisan make:component Inicio
+Nos crea una clase (lógica) y la vista (html)
+Esta en los forms/inputs
+<x-form.input/>
+
+slots->ranuras
+
+resources->views->layouts->Ahi hay un slot
+php artisan make:component Template --view
+app/view/components/template->clase
+resource->views->components->la vista
+HAY UN ELEMENTO RAIZ (Divs x default)
+Puso el principio y el final del html en la plantilla
+body
+	<h1>{{$variable}}</h1>
+	{{$slot}}
+body
+Declarar la variable en la clase
+Abajo de la clase:
+public $titulo;
+constructor($titulo){this->titulo=$titulo;}
+en el blade <x-template variable ="">
+</x-template>
+
+php artisan vendor:publish
+
+----------------25/10/2022-----------------
+Middlewares y gates
+app/http/kernel-> ya hay middlewares
+auth verifica loggin
+
+MUCHOS A MUCHOS
+Crear tabla pivote con las llaves foraneas
+area1_area2->nombre
+Relacionar
+php artisan make:migration create_area1_area2_table
+$table->foreingId('xd')->constrained()->onDelete('cascade');
+$table->foreingId('xd');
+php artisan migrate
+NOS VAMOS A LOS MODELOS
+//En area 1
+public function area2(){
+	return $this->belongsToMany(Area2::class);
+}
+
+siders->llenan tabla con información
+php artisan make:model 
+sidder -s
+database->seeders
+AGREGAR USE DEL MODELO
+metodo run
+	DB::table(etc
+	Persona::create(['nombre=>'Nombre 1'], ...);
+php artisan db:seed -class
+
+FACTORY->lo mismo pero crea
+´name' =>$this->faker->name(),
+en el seeder
+Persona::factory(15)->create();
+----------------27/10/2022-----------------
+laravel.com/docs/9x/eloquent-relationships
+
+php artisan tinker->command line para comandos
+$user->password = Hash::make('password') //aplica hash
+$area->personas()->detach([3,4,5]); //quitar relacion
+
+$area->4personas()->pluck(id)
+AQUI EXPLICA COMO ACTUALIZAR DATOS CON TABLAS RELACIONADAS
+
+----------------27/10/2022-----------------
+- TESTING
+php artisan make:test SitioTest
+function test_etc()
+/**@test*/
+$response->assertSeeText('Samuel');->no caso
+php artisan test

@@ -1,0 +1,8 @@
+Seguridad
+
+composer require laravel/jetstream (
+php artisan jetstream:install liveware/inertia --teams
+php artisan jetstream:install liveware
+npm install
+npm run build
+php artisan migrate
